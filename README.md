@@ -2,7 +2,14 @@
 
 First, run
 
-> npm install OR yarn install
+`npm install OR yarn install`
+
+Prisma setup
+
+```
+npx prisma generate
+npx prisma db push
+```
 
 Docker setup
 
@@ -31,11 +38,16 @@ Setup ENV
 DATABASE_URL="mongodb://your-unique-username:your-strong-password@localhost:27017/olshop"
 ```
 
-Prisma setup
+Run the development server:
 
-```
-npx prisma generate
-npx prisma db push
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
