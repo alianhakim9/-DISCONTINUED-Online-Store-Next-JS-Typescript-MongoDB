@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  @apply font-bold text-2xl;
+}
+
+.default-link-btn {
+  @apply bg-gray-200 p-2;
+}
+
+.btn-black {
+  @apply bg-black text-white px-4 py-2;
+}
+
+.btn-black:hover {
+  @apply bg-lime-400 text-black transition duration-75;
+}
+
+input,
+textarea,
+select {
+  @apply border-[1px] border-gray-200 my-2 p-2 w-full;
+}
+
+label {
+  @apply text-gray-600 text-sm;
+}

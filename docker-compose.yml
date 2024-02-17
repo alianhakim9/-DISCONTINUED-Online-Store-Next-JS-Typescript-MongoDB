@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  mongo:
+    build: ./mongodb-rs
+    restart: always
+    container_name: oslhop-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: olshop
+      MONGO_REPLICA_HOST: localhost
+      MONGO_REPLICA_PORT: 27017
+    ports:
+      - 27017:27017
