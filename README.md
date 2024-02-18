@@ -45,5 +45,9 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Project Maintenance By
-
 https://github.com/alianhakim9
+
+## Read More
+https://console.cloud.google.com/
+https://next-auth.js.org/
+https://www.prisma.io/
