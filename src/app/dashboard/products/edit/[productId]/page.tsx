@@ -27,7 +27,7 @@ export default function EditProduct() {
   return (
     <div>
       <div className="flex gap-4 items-center">
-        <Link href={"/products"} className="default-link-btn">
+        <Link href={"/dashboard/products"} className="default-link-btn">
           Back
         </Link>
         <h1>Edit Product Data</h1>

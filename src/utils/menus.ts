@@ -1,10 +1,10 @@
 export const sidebarMenus = [
   {
     title: "Product",
-    url: "/products",
+    url: "/dashboard/products",
   },
   {
     title: "Categories",
-    url: "/categories",
+    url: "/dashboard/categories",
   },
 ];

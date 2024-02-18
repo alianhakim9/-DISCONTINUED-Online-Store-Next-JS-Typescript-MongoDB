@@ -63,7 +63,7 @@ export default function Product() {
     <div>
       <div className="flex justify-between items-center">
         <h1>List Product</h1>
-        <Link className="btn-black" href="/products/new">
+        <Link className="btn-black" href="/dashboard/products/new">
           Add New Product
         </Link>
       </div>
@@ -111,7 +111,9 @@ export default function Product() {
                   <td className={tdStyle}>{product.description}</td>
                   <td className={tdStyle}>{product.price}</td>
                   <td className={`${tdStyle} text-center`}>
-                    <Link href={`/products/edit/${product.id}`}>Edit</Link>
+                    <Link href={`/dashboard/products/edit/${product.id}`}>
+                      Edit
+                    </Link>
                     <button
                       className="ml-4"
                       onClick={(e) => deleteProduct(e, product.id)}
@@ -127,7 +129,7 @@ export default function Product() {
                     <EmptyState
                       title="Product is empty, Add new product"
                       actionTitle="here"
-                      destination="products/new"
+                      destination="/dashboard/products/new"
                     />
                   </td>
                 </tr>
