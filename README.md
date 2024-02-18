@@ -22,6 +22,9 @@ Database setup
 ```
 Setup ENV
 ```
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXT_AUTH_SECRET=
 DATABASE_URL="mongodb://your-unique-username:your-strong-password@localhost:27017/olshop"
 ```
 Prisma setup
