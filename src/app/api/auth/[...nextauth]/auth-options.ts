@@ -52,7 +52,6 @@ export const authOptions: NextAuthOptions = {
                 }
               )
               .then((response: AxiosResponse) => {
-                console.log("response", response);
                 return response.data;
               })
               .catch((error: AxiosError) => {
