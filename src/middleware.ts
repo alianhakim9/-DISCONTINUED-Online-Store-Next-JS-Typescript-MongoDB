@@ -1,13 +1,10 @@
+import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
-let isAdmin = false;
-
+// @ts-ignore
 const authMiddleware = withAuth(
-  async function onSuccess(req: NextRequest) {
-    // @ts-ignore
-    isAdmin = req.nextauth?.token.user.isAdmin;
-  },
+  async function onSuccess(request: NextRequest) {},
   {
     callbacks: {
       // authorized: ({ token }) => {
@@ -24,17 +21,26 @@ const authMiddleware = withAuth(
   }
 );
 
-export default async function middleware(req: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const excludePattern = "^(/)?/dashboard/?.*?$";
   const publicPathnameRegex = RegExp(excludePattern, "i");
-  const isPublicPage = !publicPathnameRegex.test(req.nextUrl.pathname);
+  const isPublicPage = !publicPathnameRegex.test(request.nextUrl.pathname);
+  const secret = process.env.NEXT_AUTH_SECRET;
+  const token = await getToken({
+    req: request,
+    secret: secret,
+    cookieName: "next-auth.session-token",
+  });
+
+  // @ts-ignore
+  const isAdmin = token?.user?.isAdmin;
 
   if (isPublicPage) {
     return NextResponse.next();
   } else if (!isAdmin) {
-    return NextResponse.redirect(new URL("/denied", req.nextUrl));
+    return NextResponse.redirect(new URL("/denied", request.nextUrl));
   } else {
-    return (authMiddleware as any)(req);
+    return (authMiddleware as any)(request);
   }
 }
 
