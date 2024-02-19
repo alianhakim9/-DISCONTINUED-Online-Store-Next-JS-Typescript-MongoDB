@@ -43,7 +43,30 @@ const AuthForm = ({ isRegister }: Props) => {
           setIsLoading(false);
         });
     } else {
-      // TODO: login
+      // await axios
+      //   .post("/api/auth/login", {
+      //     email,
+      //     password,
+      //   })
+      //   .then(() => {
+      //     showToast("Login success", "success");
+      //     router.push("/dashboard/products");
+      //   })
+      //   .catch(() => {
+      //     showToast("Login failed", "error");
+      //   })
+      //   .finally(() => {
+      //     setIsLoading(false);
+      //   });
+      const res = await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: `/dashboard/products`,
+        redirect: false,
+      });
+      if (res?.status === 401) showToast("Login failed", "error");
+      // if (res?.url) router.push(res.url);
+      setIsLoading(false);
     }
   };
 

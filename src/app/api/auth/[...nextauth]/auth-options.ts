@@ -2,7 +2,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-// import Credentials from "next-auth/providers/credentials";
+import Credentials from "next-auth/providers/credentials";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 const prisma = new PrismaClient();
 
@@ -21,44 +22,65 @@ export const authOptions: NextAuthOptions = {
         },
       },
     }),
-    // Credentials({
-    //   name: "Credentials",
-    //   credentials: {
-    //     username: {
-    //       label: "Username",
-    //       type: "text",
-    //     },
-    //     password: {
-    //       label: "Password",
-    //       type: "password",
-    //     },
-    //   },
-    //   async authorize(credentials, req) {
-    //     const { username, password } = credentials as {
-    //       username: string;
-    //       password: string;
-    //     };
-
-    //   },
-    // }),
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
+      },
+      async authorize(credentials, _req) {
+        try {
+          return (
+            (await axios
+              .post(
+                `${process.env.NEXT_AUTH_URL}/api/auth/login`,
+                {
+                  email: credentials?.email,
+                  password: credentials?.password,
+                },
+                {
+                  headers: {
+                    Accept: "*/*",
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
+              .then((response: AxiosResponse) => {
+                console.log("response", response);
+                return response.data;
+              })
+              .catch((error: AxiosError) => {
+                console.log(error);
+                throw new Error(error.message);
+              })) || null
+          );
+        } catch (error) {
+          return null;
+        }
+      },
+    }),
   ],
-  callbacks: {
-    async jwt({ token, account, profile }) {
-      if (account && account.type === "credentials") {
-        token.userId = account.providerAccountId;
-      }
-      return token;
-    },
-    async session({ session, token, user }) {
-      // @ts-ignore
-      session.user.id = token.userId;
-      return session;
-    },
-  },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
   },
   pages: {
     signIn: "/auth/login",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      user && (token.user = user);
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.userId;
+      return session;
+    },
   },
 };
