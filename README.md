@@ -1,5 +1,7 @@
 ## Getting Started
 
+Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API.
+
 First, run
 
 `npm install OR yarn install`
