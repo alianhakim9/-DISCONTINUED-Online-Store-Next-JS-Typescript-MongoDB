@@ -5,7 +5,8 @@ import EmptyState from "@/components/EmptyState";
 import { showToast } from "@/utils/helper";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import Link from "next/link";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function Product() {
   const [products, setProducts] = useState<Product[]>();
@@ -15,7 +16,7 @@ export default function Product() {
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
 
-  const fetchProducts = useCallback(() => {
+  const fetchProducts = useDebouncedCallback((query) => {
     const url = "/api/products";
     if (query) {
       axios
@@ -36,11 +37,35 @@ export default function Product() {
           showToast(err.message, "error");
         });
     }
-  }, [limit, orderBy, page, query]);
+  }, 300);
+
+  // const fetchProducts = useCallback(() => {
+  //   const url = "/api/products";
+  //   console.log(query);
+  //   if (query) {
+  //     axios
+  //       .get(`${url}?q=${query}&order=${orderBy}&limit=${limit}`)
+  //       .then((response: AxiosResponse) => {
+  //         setProducts(response.data);
+  //       })
+  //       .catch((err: AxiosError) => {
+  //         showToast(err.message, "error");
+  //       });
+  //   } else {
+  //     axios
+  //       .get(`${url}?order=${orderBy}&page=${page}&limit=${limit}`)
+  //       .then((response: AxiosResponse) => {
+  //         setProducts(response.data);
+  //       })
+  //       .catch((err: AxiosError) => {
+  //         showToast(err.message, "error");
+  //       });
+  //   }
+  // }, [limit, orderBy, page, query]);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    fetchProducts(query);
+  }, [fetchProducts, query]);
 
   const deleteProduct = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -53,7 +78,7 @@ export default function Product() {
         .delete(`/api/products/${productId}`)
         .then(() => {
           showToast("Product deleted", "success");
-          fetchProducts();
+          fetchProducts(query);
         })
         .catch((err: AxiosError) => {
           showToast(err.message, "error");
