@@ -37,7 +37,7 @@ export default async function middleware(request: NextRequest) {
 
   if (isPublicPage) {
     return NextResponse.next();
-  } else if (!isAdmin) {
+  } else if (!isAdmin && !isPublicPage) {
     return NextResponse.redirect(new URL("/denied", request.nextUrl));
   } else {
     return (authMiddleware as any)(request);
