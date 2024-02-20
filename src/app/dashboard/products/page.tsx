@@ -1,5 +1,6 @@
 "use client";
 
+import CheckBox from "@/components/Checkbox";
 import EmptyState from "@/components/EmptyState";
 import { showToast } from "@/utils/helper";
 import axios, { AxiosError, AxiosResponse } from "axios";
@@ -11,13 +12,14 @@ export default function Product() {
   const [tdStyle, _setTdStyle] = useState("border border-slate-200 p-1");
   const [query, setQuery] = useState("");
   const [orderBy, setOrderBy] = useState("desc");
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
 
   const fetchProducts = useCallback(() => {
     const url = "/api/products";
     if (query) {
       axios
-        .get(`${url}?q=${query}&order=${orderBy}`)
+        .get(`${url}?q=${query}&order=${orderBy}&limit=${limit}`)
         .then((response: AxiosResponse) => {
           setProducts(response.data);
         })
@@ -26,7 +28,7 @@ export default function Product() {
         });
     } else {
       axios
-        .get(`${url}?order=${orderBy}&page=${page}`)
+        .get(`${url}?order=${orderBy}&page=${page}&limit=${limit}`)
         .then((response: AxiosResponse) => {
           setProducts(response.data);
         })
@@ -34,7 +36,7 @@ export default function Product() {
           showToast(err.message, "error");
         });
     }
-  }, [orderBy, page, query]);
+  }, [limit, orderBy, page, query]);
 
   useEffect(() => {
     fetchProducts();
@@ -91,6 +93,17 @@ export default function Product() {
               <option value="lowest-price">Order by lowest Price</option>
               <option value="highest-price">Order by highest Price</option>
             </select>
+            <select
+              name="total_product_to_show"
+              id="total_product_to_show"
+              value={limit}
+              onChange={(e) => setLimit(Number.parseInt(e.target.value))}
+              className="max-w-[200px]"
+            >
+              <option value="5">Limit product</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
           </div>
 
           <table className="table-auto border border-slate-200 w-full mt-4">
@@ -101,6 +114,7 @@ export default function Product() {
                 <th>Product Description</th>
                 <th>Product Price</th>
                 <th>User Action</th>
+                {/* <th>Checkbox</th> */}
               </tr>
             </thead>
             <tbody>
@@ -121,6 +135,9 @@ export default function Product() {
                       Delete
                     </button>
                   </td>
+                  {/* <td className={`${tdStyle} p-0 m-0`}>
+                    <CheckBox name={product.name} />
+                  </td> */}
                 </tr>
               ))}
               {products?.length === 0 && (

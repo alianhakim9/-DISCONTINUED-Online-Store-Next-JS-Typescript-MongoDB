@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const q = searchParams.get("q");
   const order = searchParams.get("order");
+  const limit = searchParams.get("limit");
 
   if (q) {
     const products = await prisma.product.findMany({
@@ -75,6 +76,7 @@ export async function GET(req: NextRequest) {
           createdAt: order === "asc" ? "asc" : "desc",
         },
       ],
+      take: Number.parseInt(limit!),
     });
     return NextResponse.json(products);
   } else {
@@ -87,6 +89,7 @@ export async function GET(req: NextRequest) {
           createdAt: order === "asc" ? "asc" : "desc",
         },
       ],
+      take: Number.parseInt(limit!),
     });
 
     return NextResponse.json(products);
