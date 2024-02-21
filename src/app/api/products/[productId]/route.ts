@@ -15,6 +15,9 @@ export async function GET(
       where: {
         id: params.productId,
       },
+      include: {
+        category: true,
+      },
     });
     return NextResponse.json(product);
   }
@@ -62,6 +65,7 @@ export async function PUT(
         description,
         price: Number.parseFloat(price),
         images,
+        categoryId,
       },
     });
     return NextResponse.json(updatedProduct);

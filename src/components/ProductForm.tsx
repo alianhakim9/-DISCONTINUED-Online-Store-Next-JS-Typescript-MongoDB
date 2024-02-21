@@ -22,7 +22,9 @@ const ProductForm = ({ product }: ProductProps) => {
     product?.images || []
   );
   const [categories, setCategories] = useState<Category[]>();
-  const [categoryId, setCategoryId] = useState<string>();
+  const [categoryId, setCategoryId] = useState<string>(
+    product?.category?.id || ""
+  );
 
   const router = useRouter();
 
@@ -176,7 +178,7 @@ const ProductForm = ({ product }: ProductProps) => {
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
           >
-            <option value="">Select category</option>
+            <option value="">Uncategorized</option>
             {categories?.map((category, index) => (
               <option key={index} value={category.id}>
                 {category.name}
