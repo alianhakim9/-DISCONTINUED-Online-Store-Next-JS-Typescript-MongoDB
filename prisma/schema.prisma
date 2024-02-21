@@ -58,11 +58,14 @@ model Product {
   description String?
   price       Float
   images      String[]
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String   @db.ObjectId
   createdAt   DateTime @default(now())
 }
 
 model Category {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  createdAt DateTime @default(now())
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  Product   Product[]
 }

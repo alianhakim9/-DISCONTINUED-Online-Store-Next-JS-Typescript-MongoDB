@@ -7,4 +7,8 @@ export const sidebarMenus = [
     title: "Categories",
     url: "/dashboard/categories",
   },
+  {
+    title: "Orders",
+    url: "/dashboard/orders",
+  },
 ];

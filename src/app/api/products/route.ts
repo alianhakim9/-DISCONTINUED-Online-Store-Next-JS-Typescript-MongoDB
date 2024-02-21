@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
   const description = formData.get("description") as string;
   const price = formData.get("price") as string;
   const files = formData.getAll("files");
+  const categoryId = formData.get("categoryId") as string;
   let images: string[] = [];
 
   await Promise.all(
@@ -38,6 +39,7 @@ export async function POST(req: NextRequest) {
       description,
       price: Number.parseFloat(price),
       images: images,
+      categoryId: categoryId,
     },
   });
 
@@ -78,6 +80,9 @@ export async function GET(req: NextRequest) {
         },
       ],
       take: Number.parseInt(limit!),
+      include: {
+        category: true,
+      },
     });
     return NextResponse.json(products);
   } else {
@@ -91,6 +96,9 @@ export async function GET(req: NextRequest) {
         },
       ],
       take: Number.parseInt(limit!),
+      include: {
+        category: true,
+      },
     });
     return NextResponse.json(products);
   }

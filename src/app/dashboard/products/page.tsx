@@ -138,6 +138,7 @@ export default function Product() {
                 <th>Product Name</th>
                 <th>Product Description</th>
                 <th>Product Price</th>
+                <th>Product Category</th>
                 <th>User Action</th>
                 {/* <th>Checkbox</th> */}
               </tr>
@@ -149,6 +150,7 @@ export default function Product() {
                   <td>{product.name}</td>
                   <td>{product.description}</td>
                   <td>{product.price}</td>
+                  <td>{product.category.name}</td>
                   <td className={`text-center`}>
                     <Link href={`/dashboard/products/edit/${product.id}`}>
                       Edit

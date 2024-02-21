@@ -5,7 +5,7 @@ import { showToast } from "@/utils/helper";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface ProductProps {
@@ -21,13 +21,23 @@ const ProductForm = ({ product }: ProductProps) => {
   const [existingImages, setExistingImages] = useState<string[]>(
     product?.images || []
   );
+  const [categories, setCategories] = useState<Category[]>();
+  const [categoryId, setCategoryId] = useState<string>();
+
   const router = useRouter();
+
+  const fetchCategories = useCallback(() => {
+    axios
+      .get("/api/categories")
+      .then((response: AxiosResponse) => setCategories(response.data));
+  }, []);
 
   useEffect(() => {
     if (product?.images) {
       setExistingImages(product.images);
     }
-  }, [product]);
+    fetchCategories();
+  }, [fetchCategories, product]);
 
   const storeProduct = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,6 +45,7 @@ const ProductForm = ({ product }: ProductProps) => {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
+    if (categoryId) formData.append("categoryId", categoryId);
     existingImages.forEach((image) => {
       formData.append("existingImages", image);
     });
@@ -158,6 +169,20 @@ const ProductForm = ({ product }: ProductProps) => {
             multiple
             onChange={handleFileChange}
           />
+          <label htmlFor="category">Category</label>
+          <select
+            name="category"
+            id="category"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+          >
+            <option value="">Select category</option>
+            {categories?.map((category, index) => (
+              <option key={index} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
           <button
             type="submit"
             className="disabled:bg-gray-400 disabled:cursor-not-allowed btn-black mt-4"

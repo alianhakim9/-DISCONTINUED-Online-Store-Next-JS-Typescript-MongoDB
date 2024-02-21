@@ -32,6 +32,7 @@ export async function PUT(
   const price = formData.get("price") as string;
   const files = formData.getAll("files");
   const existingImages = formData.getAll("existingImages") as string[];
+  const categoryId = formData.get("categoryId") as string;
   let images: string[] = existingImages;
 
   if (params.productId) {

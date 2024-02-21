@@ -4,6 +4,7 @@ type Product = {
   description: string;
   price: string;
   images: string[];
+  category: Category;
 };
 
 type User = {
