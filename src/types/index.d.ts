@@ -13,3 +13,8 @@ type User = {
   username: string;
   image: string;
 };
+
+type Category = {
+  id: string;
+  name: string;
+};

@@ -60,3 +60,9 @@ model Product {
   images      String[]
   createdAt   DateTime @default(now())
 }
+
+model Category {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  createdAt DateTime @default(now())
+}

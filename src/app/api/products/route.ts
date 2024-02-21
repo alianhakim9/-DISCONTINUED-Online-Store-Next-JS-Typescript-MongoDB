@@ -49,6 +49,7 @@ export async function GET(req: NextRequest) {
   const q = searchParams.get("q");
   const order = searchParams.get("order");
   const limit = searchParams.get("limit");
+  const page = searchParams.get("page");
 
   if (q) {
     const products = await prisma.product.findMany({
@@ -91,7 +92,6 @@ export async function GET(req: NextRequest) {
       ],
       take: Number.parseInt(limit!),
     });
-
     return NextResponse.json(products);
   }
 }

@@ -10,17 +10,17 @@ import { useDebouncedCallback } from "use-debounce";
 
 export default function Product() {
   const [products, setProducts] = useState<Product[]>();
-  const [tdStyle, _setTdStyle] = useState("border border-slate-200 p-1");
   const [query, setQuery] = useState("");
   const [orderBy, setOrderBy] = useState("desc");
   const [limit, setLimit] = useState(5);
+
   const [page, setPage] = useState(1);
 
-  const fetchProducts = useDebouncedCallback((query) => {
+  const fetchProducts = useDebouncedCallback((query, limit, orderBy, page) => {
     const url = "/api/products";
     if (query) {
       axios
-        .get(`${url}?q=${query}&order=${orderBy}&limit=${limit}`)
+        .get(`${url}?q=${query}&order=${orderBy}&limit=${limit}&page=${page}`)
         .then((response: AxiosResponse) => {
           setProducts(response.data);
         })
@@ -64,8 +64,8 @@ export default function Product() {
   // }, [limit, orderBy, page, query]);
 
   useEffect(() => {
-    fetchProducts(query);
-  }, [fetchProducts, query]);
+    fetchProducts(query, limit, orderBy, page);
+  }, [fetchProducts, limit, orderBy, page, query]);
 
   const deleteProduct = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -78,7 +78,7 @@ export default function Product() {
         .delete(`/api/products/${productId}`)
         .then(() => {
           showToast("Product deleted", "success");
-          fetchProducts(query);
+          fetchProducts(query, limit, orderBy, page);
         })
         .catch((err: AxiosError) => {
           showToast(err.message, "error");
@@ -145,11 +145,11 @@ export default function Product() {
             <tbody>
               {products.map((product, index) => (
                 <tr key={product.id}>
-                  <td className={`${tdStyle} text-center`}>{index + 1}</td>
-                  <td className={tdStyle}>{product.name}</td>
-                  <td className={tdStyle}>{product.description}</td>
-                  <td className={tdStyle}>{product.price}</td>
-                  <td className={`${tdStyle} text-center`}>
+                  <td className={`text-center`}>{index + 1}</td>
+                  <td>{product.name}</td>
+                  <td>{product.description}</td>
+                  <td>{product.price}</td>
+                  <td className={`text-center`}>
                     <Link href={`/dashboard/products/edit/${product.id}`}>
                       Edit
                     </Link>
@@ -189,15 +189,13 @@ export default function Product() {
             >
               Previous
             </button>
-            <p className="rounded-full bg-gray-200 px-5 py-2">{page}</p>
-            {totalData && totalData >= PAGE_SIZE && (
-              <button
-                onClick={() => setPage(page + 1)}
-                className="bg-black text-white p-2"
-              >
-                Next
-              </button>
-            )}
+            <button
+              onClick={() => setPage(page + 1)}
+              className="bg-black text-white p-2 disabled:bg-gray-200 disabled:cursor-not-allowed"
+              disabled={products.length < limit}
+            >
+              Next
+            </button>
           </div> */}
         </div>
       ) : (
