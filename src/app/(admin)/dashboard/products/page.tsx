@@ -1,23 +1,13 @@
 "use client";
 
 // import CheckBox from "@/components/Checkbox";
-import EmptyState from "@/components/admin/EmptyState";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { showToast } from "@/utils/helper";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { DataTable } from "./data-table";
+import { DataTable } from "../../../../components/admin/DataTable";
 import { columns } from "./columns";
 
 export default function Product() {
@@ -81,25 +71,6 @@ export default function Product() {
     fetchProducts(query, limit, orderBy, page);
   }, [fetchProducts, limit, orderBy, page, query]);
 
-  const deleteProduct = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-    productId: string
-  ) => {
-    e.preventDefault();
-    const mConfirm = confirm("Delete this product?");
-    if (mConfirm) {
-      await axios
-        .delete(`/api/products/${productId}`)
-        .then(() => {
-          showToast("Product deleted", "success");
-          fetchProducts(query, limit, orderBy, page);
-        })
-        .catch((err: AxiosError) => {
-          showToast(err.message, "error");
-        });
-    }
-  };
-
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -110,7 +81,7 @@ export default function Product() {
       </div>
       {products && (
         <div className="mt-5">
-          <DataTable columns={columns} data={products} />
+          <DataTable columns={columns} data={products} showSearch />
         </div>
       )}
     </div>
