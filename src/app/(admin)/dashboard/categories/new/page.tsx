@@ -1,6 +1,5 @@
 import BackButton from "@/components/admin/BackButton";
 import CategoryForm from "@/components/admin/CategoryForm";
-import Link from "next/link";
 
 export default function AddNewCategory() {
   return (
