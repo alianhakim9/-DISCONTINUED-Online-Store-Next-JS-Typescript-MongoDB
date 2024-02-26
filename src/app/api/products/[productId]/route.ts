@@ -33,6 +33,7 @@ export async function PUT(
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
   const price = formData.get("price") as string;
+  const stock = formData.get("stock") as string;
   const files = formData.getAll("files");
   const existingImages = formData.getAll("existingImages") as string[];
   const categoryId = formData.get("categoryId") as string;
@@ -43,7 +44,8 @@ export async function PUT(
       Array.from(files).map(async (file: File | FormDataEntryValue) => {
         const mFile = file as File;
         const buffer = Buffer.from(await mFile.arrayBuffer());
-        const fileName = `${Date.now()}-${mFile.name.replaceAll(" ", "_")}`;
+        const fileExtension = mFile.name.split(".").pop();
+        const fileName = `Product-${Date.now()}.${fileExtension}`;
         images.push(fileName);
         try {
           await writeFile(
@@ -65,6 +67,7 @@ export async function PUT(
         description,
         price: Number.parseFloat(price),
         images,
+        stock: Number(stock),
         categoryId,
       },
     });

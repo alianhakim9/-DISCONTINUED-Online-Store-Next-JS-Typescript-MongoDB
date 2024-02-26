@@ -12,6 +12,8 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXT_AUTH_SECRET as string,
   providers: [
     GoogleProvider({
+      id: "google",
+      name: "Google",
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       authorization: {
@@ -23,6 +25,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     Credentials({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: {

@@ -12,3 +12,7 @@ export function showToast(message: string, type: "success" | "error") {
 export function onSignOut() {
   return signOut({ callbackUrl: "/auth/login" });
 }
+
+export const addDecimals = (num: number) => {
+  return (Math.round(num * 100) / 100).toFixed(2);
+};

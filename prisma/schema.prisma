@@ -50,6 +50,7 @@ model User {
   isAdmin       Boolean?
   Account       Account[]
   Session       Session[]
+  Cart          Cart[]
 }
 
 model Product {
@@ -58,9 +59,24 @@ model Product {
   description String?
   price       Float
   images      String[]
+  stock       Int
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  String   @db.ObjectId
   createdAt   DateTime @default(now())
+  Cart        Cart[]
+}
+
+model Cart {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity      Int
+  totalPrice    Int
+  itemPrice     Int
+  shippingPrice Int
+  product       Product  @relation(fields: [productId], references: [id])
+  productId     String   @db.ObjectId
+  User          User?    @relation(fields: [userId], references: [id])
+  userId        String?
+  createdAt     DateTime @default(now())
 }
 
 model Category {

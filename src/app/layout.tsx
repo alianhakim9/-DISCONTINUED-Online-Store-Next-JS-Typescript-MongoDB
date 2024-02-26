@@ -1,8 +1,9 @@
-import ToasterProvider from "@/providers/ToasterProvider";
+import GlobalProvider from "@/providers/GlobalProvider";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import { authOptions } from "./api/auth/[...nextauth]/auth-options";
+import { StoreProvider } from "@/providers/StoreProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,9 +22,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ToasterProvider session={session}>
-          <main className="col-span-6">{children}</main>
-        </ToasterProvider>
+        <StoreProvider>
+          <GlobalProvider session={session}>
+            <main>{children}</main>
+          </GlobalProvider>
+        </StoreProvider>
       </body>
     </html>
   );
