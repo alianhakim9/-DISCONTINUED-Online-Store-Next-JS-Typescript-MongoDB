@@ -18,6 +18,7 @@ import { z } from "zod";
 import OAuthButton from "./OAuthButton";
 import axios, { AxiosError } from "axios";
 import { showToast } from "@/utils/helper";
+import { useState } from "react";
 interface IAuthFormProps {
   isSignUp?: boolean;
   signUpUrl?: string;
@@ -48,8 +49,10 @@ const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
       confirmPassword: "",
     },
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    setIsLoading(true);
     if (isSignUp && fromAdmin) {
       await axios
         .post("/api/auth/register", values)
@@ -59,17 +62,21 @@ const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
         .catch((error: AxiosError) => {
           showToast(error.message, "error");
         })
-        .finally(() => {});
+        .finally(() => {
+          setIsLoading(false);
+        });
     } else if (!isSignUp && fromAdmin) {
       const email = values.email;
       const password = values.password;
       const res = await signIn("credentials", {
         email,
         password,
-        callbackUrl: `/dashboard/products`,
+        callbackUrl: `/dashboard`,
         redirect: false,
       });
       if (res?.status === 401) showToast("Login failed", "error");
+      if (res?.status === 200) router.push("/dashboard");
+      setIsLoading(false);
     }
   }
 
@@ -158,6 +165,7 @@ const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
             className={`${
               fromAdmin && "w-full self-stretch"
             } mt-5 self-start min-w-[150px] rounded-lg shadow-lg`}
+            disabled={isLoading}
           >
             {isSignUp ? "Sign Up" : "Login"}
           </Button>
@@ -169,6 +177,7 @@ const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
               onClick={() => {
                 if (signUpUrl) router.push(signUpUrl);
               }}
+              disabled={isLoading}
             >
               Sign Up
             </Button>
