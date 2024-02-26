@@ -1,6 +1,17 @@
 ## Getting Started
 
-Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API.
+Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API. This project using monolith architecture.
+
+Feature List : 
+- Authentication & Authorization
+- OAuth2
+- Admin Panel
+- Product, Category Management
+- File/Image Upload
+- Front-End
+- Filtering, Sorting & Pagination
+- Shopping Cart (Development)
+- Responsive Web Design (Development)
 
 First, run
 
