@@ -1,23 +1,28 @@
+"use client";
+
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "../ui/button";
-import { BiCart } from "react-icons/bi";
-import Image from "next/image";
-import { PRODUCT_IMG_PATH } from "@/utils/constants";
-import Link from "next/link";
 import { Product } from "@/types";
+import { PRODUCT_IMG_PATH } from "@/utils/constants";
+import Image from "next/image";
+import Link from "next/link";
+import { BiCart } from "react-icons/bi";
+import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/redux/slices/cartSlice";
 
 interface IProductProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: IProductProps) => {
+  const dispatch = useDispatch();
+
   return (
     <Card className="flex flex-col justify-between">
       <CardHeader>
@@ -47,7 +52,12 @@ const ProductCard = ({ product }: IProductProps) => {
       </CardHeader>
       {/* <CardContent></CardContent> */}
       <CardFooter className="self-center">
-        <Button className="rounded-lg hover:shadow-md">
+        <Button
+          className="rounded-lg hover:shadow-md"
+          onClick={() => {
+            dispatch(addToCart({ ...product, quantity: 1 }));
+          }}
+        >
           <BiCart size={20} className="mr-2" /> Add To Cart
         </Button>
       </CardFooter>

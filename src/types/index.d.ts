@@ -28,11 +28,18 @@ export type Cart = {
   quantity: number;
   shippingPrice: number;
   userId: string;
+  product: Product;
   productId: string;
   createdAt: string;
 };
 
 type RootState = {
-  loading: boolean;
-  cartItems: Cart[];
+  cart: {
+    loading: boolean;
+    cartItems: Product[];
+    itemPrice: number;
+    shippingPrice: number;
+    totalPrice: number;
+    message: string;
+  };
 };

@@ -6,6 +6,16 @@ import { ColumnDef } from "@tanstack/react-table";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 export type Category = {
   id: string;
   name: string;
@@ -40,9 +50,31 @@ export const columns: ColumnDef<Category>[] = [
           <Button variant="outline" size="sm">
             <Link href={`/dashboard/categories/edit/${category.id}`}>Edit</Link>
           </Button>
-          <Button variant="destructive" size="sm" onClick={deleteCategory}>
-            Delete
-          </Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button type="button" variant="destructive" size="sm">
+                Delete
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. Are you sure you want to
+                  permanently delete this data from our servers?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  variant="destructive"
+                  onClick={deleteCategory}
+                  size="sm"
+                >
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       );
     },

@@ -7,6 +7,16 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { FaArrowsUpDown } from "react-icons/fa6";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 export type Product = {
   id: string;
   name: string;
@@ -70,9 +80,27 @@ export const columns: ColumnDef<Product>[] = [
           <Button variant="outline" size="sm">
             <Link href={`/dashboard/products/edit/${product.id}`}>Edit</Link>
           </Button>
-          <Button variant="destructive" size="sm" onClick={deleteProduct}>
-            Delete
-          </Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button type="button" variant="destructive" size="sm">
+                Delete
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. Are you sure you want to
+                  permanently delete this data from our servers?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="destructive" onClick={deleteProduct} size="sm">
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       );
     },

@@ -14,6 +14,10 @@ export const sidebarMenus = [
     title: "Orders",
     url: "/dashboard/orders",
   },
+  {
+    title: "Users",
+    url: "/dashboard/users",
+  },
 ];
 
 export const guestNavbarMenus = [

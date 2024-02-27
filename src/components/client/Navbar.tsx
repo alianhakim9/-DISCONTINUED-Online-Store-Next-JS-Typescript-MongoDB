@@ -1,25 +1,24 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { RootState } from "@/types";
+import { showToast } from "@/utils/helper";
 import { guestNavbarMenus, isLoginNavbarMenus } from "@/utils/menus";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BiCart } from "react-icons/bi";
 import { useSelector } from "react-redux";
-import { RootState } from "@/types";
 
 const Navbar = () => {
   const isLoggedIn = false;
   const router = useRouter();
 
-  const loading = (state: RootState) => state.loading;
-  const cartItems = (state: RootState) => state.cartItems;
-
-  const isLoading = useSelector(loading);
-  const cart = useSelector(cartItems);
+  const { loading, cartItems, message } = useSelector(
+    (state: RootState) => state.cart
+  );
 
   return (
     <div className="bg-white border border-gray-100 p-5 top-0 z-50 fixed w-full ">
@@ -37,7 +36,7 @@ const Navbar = () => {
           >
             <BiCart size={28} />
             <Badge variant="default">
-              {isLoading ? "0" : cart?.reduce((a, c) => a + 1, 0)}
+              {loading ? 0 : cartItems?.reduce((a, c) => a + 1, 0)}
             </Badge>
           </Button>
           {/* render if is logged in true */}
