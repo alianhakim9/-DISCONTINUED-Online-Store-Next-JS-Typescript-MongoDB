@@ -1,7 +1,7 @@
 "use client";
 
 import ProductCard from "@/components/client/ProductCard";
-import ProductSkeletonCard from "@/components/client/ProductSkeletonCard";
+import ProductSkeletonCard from "@/components/client/skeletons/ProductSkeletonCard";
 import { Product } from "@/types";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
