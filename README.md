@@ -10,7 +10,8 @@ Feature List :
 - File/Image Upload
 - Front-End
 - Filtering, Sorting & Pagination
-- Shopping Cart (Development)
+- Shopping Cart
+- Payment Gateway (Development)
 - Responsive Web Design (Development)
 
 First, run
