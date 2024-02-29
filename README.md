@@ -66,3 +66,5 @@ https://github.com/alianhakim9
 * https://console.cloud.google.com/
 * https://next-auth.js.org/
 * https://www.prisma.io/
+* https://redux-toolkit.js.org/usage/usage-with-typescript
+* https://ui.shadcn.com/docs
