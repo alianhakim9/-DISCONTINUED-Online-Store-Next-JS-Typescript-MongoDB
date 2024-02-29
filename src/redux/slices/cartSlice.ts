@@ -1,14 +1,13 @@
-import { Cart } from "@/types";
-import { addDecimals } from "@/utils/helper";
+import { Product, Quantity, SubTotal } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 type CartSliceState = {
   loading: boolean;
-  cartItems: Cart[];
-  itemPrice: number;
-  shippingPrice: number;
+  cartItems: Product[];
   totalPrice: number;
+  subTotal: SubTotal[];
+  quantity: Quantity[];
 };
 
 const initialState: CartSliceState = Cookies.get("cart")
@@ -19,9 +18,9 @@ const initialState: CartSliceState = Cookies.get("cart")
   : {
       loading: true,
       cartItems: [],
-      itemPrice: 0,
-      shippingPrice: 0,
       totalPrice: 0,
+      subTotal: [],
+      quantity: [],
     };
 
 const cartSlice = createSlice({
@@ -36,32 +35,130 @@ const cartSlice = createSlice({
           x.id === existItem.id ? item : x
         );
       } else {
+        state.subTotal.push({
+          id: item.id,
+          count: item.subTotal,
+        });
+        state.quantity.push({
+          id: item.id,
+          count: item.quantity,
+        });
         state.cartItems = [...state.cartItems, item];
       }
+      // state.cartItems.map((x) => {
+      //   Number(addDecimals(Number(x.price) > 100 ? 0 : 100));
+      // });
+      let total = 0;
       state.cartItems.map((x) => {
-        Number(addDecimals(x.itemPrice > 100 ? 0 : 100));
+        total += x.subTotal;
+        return total;
       });
-      state.itemPrice = Number(
-        addDecimals(
-          state.cartItems.reduce(
-            (acc, item) => acc + Number(item.itemPrice) * item.quantity,
-            0
-          )
-        )
-      );
-      state.totalPrice = (Number(state.itemPrice), Number(state.shippingPrice));
+      state.totalPrice = total;
       Cookies.set("cart", JSON.stringify(state));
     },
     removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter((x) => x.id !== action.payload);
+      let total = 0;
+      state.cartItems = state.cartItems.filter((x) => {
+        if (x.id === action.payload) {
+          total = state.totalPrice - x.subTotal;
+        }
+        return x.id !== action.payload;
+      });
+      state.subTotal = state.subTotal.filter((y) => {
+        return y.id !== action.payload;
+      });
+      state.quantity = state.quantity.filter((qty) => {
+        return qty.id !== action.payload;
+      });
+      state.totalPrice = total;
       Cookies.set("cart", JSON.stringify(state));
     },
     hideLoading: (state) => {
       state.loading = false;
     },
+    addQuantity: (state, action) => {
+      state.quantity = state.quantity.map((qty) => {
+        if (qty.id === action.payload.id) {
+          return {
+            ...qty,
+            count: qty.count + 1,
+          };
+        } else {
+          return qty;
+        }
+      });
+      state.cartItems.map((item) => {
+        let total = 0;
+        state.subTotal = state.subTotal.map((subTotal, index) => {
+          if (subTotal.id === item.id) {
+            return {
+              ...subTotal,
+              count: Number(item.price) * state.quantity[index].count,
+            };
+          } else {
+            return subTotal;
+          }
+        });
+        if (item.id === action.payload.id) {
+          total = state.totalPrice + item.subTotal;
+          state.totalPrice = total;
+          return {
+            ...item,
+            quantity: action.payload.quantity,
+            subTotal: Number(item.price) * action.payload.quantity,
+          };
+        } else {
+          return item;
+        }
+      });
+      Cookies.set("cart", JSON.stringify(state));
+    },
+    reduceQuantity: (state, action) => {
+      state.quantity = state.quantity.map((qty) => {
+        if (qty.id === action.payload.id) {
+          return {
+            ...qty,
+            count: qty.count - 1,
+          };
+        } else {
+          return qty;
+        }
+      });
+      state.cartItems.map((item) => {
+        let total = 0;
+        state.subTotal = state.subTotal.map((subTotal, index) => {
+          if (subTotal.id === item.id) {
+            return {
+              ...subTotal,
+              count: Number(item.price) * state.quantity[index].count,
+            };
+          } else {
+            return subTotal;
+          }
+        });
+        if (item.id === action.payload.id) {
+          total = state.totalPrice - item.subTotal;
+          state.totalPrice = total;
+          return {
+            ...item,
+            quantity: action.payload.quantity,
+            subTotal: Number(item.price) * action.payload.quantity,
+          };
+        } else {
+          return item;
+        }
+      });
+      Cookies.set("cart", JSON.stringify(state));
+    },
   },
 });
 
-export const { addToCart, removeFromCart, hideLoading } = cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  hideLoading,
+  addQuantity,
+  reduceQuantity,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

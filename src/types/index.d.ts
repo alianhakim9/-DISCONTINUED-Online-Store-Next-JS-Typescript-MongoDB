@@ -6,6 +6,10 @@ export type Product = {
   images: string[];
   stock: number;
   category: Category;
+  stock: number;
+  quantity: number;
+  subTotal: number;
+  shippingPrice: number;
 };
 
 type User = {
@@ -40,6 +44,17 @@ type RootState = {
     itemPrice: number;
     shippingPrice: number;
     totalPrice: number;
-    message: string;
+    subTotal: SubTotal[];
+    quantity: Quantity[];
   };
+};
+
+type SubTotal = {
+  id: string;
+  count: number;
+};
+
+type Quantity = {
+  id: string;
+  count: number;
 };

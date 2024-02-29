@@ -55,7 +55,9 @@ const ProductCard = ({ product }: IProductProps) => {
         <Button
           className="rounded-lg hover:shadow-md"
           onClick={() => {
-            dispatch(addToCart({ ...product, quantity: 1 }));
+            dispatch(
+              addToCart({ ...product, quantity: 1, subTotal: product.price })
+            );
           }}
         >
           <BiCart size={20} className="mr-2" /> Add To Cart
