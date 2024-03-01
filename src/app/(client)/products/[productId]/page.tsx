@@ -17,13 +17,20 @@ import axios, { AxiosResponse } from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BiCart } from "react-icons/bi";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaWhatsapp,
+} from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 
 export default function ProductDetail() {
   const { productId } = useParams();
   const [product, setProduct] = useState<Product>();
-  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     axios
@@ -34,45 +41,27 @@ export default function ProductDetail() {
       .catch((err) => alert(err));
   }, [productId]);
 
-  const increaseQuantity = () => {
-    if (Number(product?.stock) > quantity) {
-      setQuantity((prev) => prev + 1);
-    }
-  };
-  const decreaseQuantity = () => {
-    if (quantity !== 1) {
-      setQuantity((prev) => prev - 1);
-    }
-    return;
-  };
-
-  const handleAddToCart = (product: Product) => {
-    dispatch(
-      addToCart({
-        ...product,
-        quantity: quantity,
-        subTotal: quantity * Number(product.price),
-      })
-    );
-  };
-
   if (!product) {
     return <ProductDetailSkeleton />;
   }
   return (
-    <div className="flex gap-10">
+    <div className="flex gap-10 mt-10">
       {product && (
-        <Carousel className="max-w-xs mx-10">
+        <Carousel className="max-w-lg mx-10">
           <CarouselContent>
             {product.images.map((image) => (
-              <CarouselItem key={image}>
-                <div className="h-80 w-80 relative">
+              <CarouselItem
+                key={image}
+                className="w-full flex items-center justify-center"
+              >
+                <div className="h-96 w-96 relative">
                   <Image
                     alt={image}
                     src={`${PRODUCT_IMG_PATH}/${image}`}
                     layout="fill" // required
-                    objectFit="cover" // change to suit your needs
+                    objectFit="fit" // change to suit your needs
                     className="rounded-md" // just an example
+                    quality={100}
                   />
                 </div>
               </CarouselItem>
@@ -84,30 +73,49 @@ export default function ProductDetail() {
               <CarouselNext />
             </div>
           )}
+          <div className="flex flex-col gap-1">
+            <p className="font-semibold">Share this product</p>
+            <div className="flex gap-2 items-center">
+              <FaFacebook size={24} />
+              <FaTwitter size={24} />
+              <FaInstagram size={24} />
+              <FaWhatsapp size={24} />
+            </div>
+          </div>
         </Carousel>
       )}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <h3 className="font-bold text-3xl">{product?.name}</h3>
         <hr />
         <p className="text-2xl text-green-700 font-semibold">
           Rp. {product?.price}
         </p>
         <p>{product?.description}</p>
-        <QuantityButton
-          quantity={quantity}
-          disableDecreaseBtn={quantity === 1}
-          disableIncreaseBtn={Number(product?.stock) === quantity}
-          onDecrease={decreaseQuantity}
-          onIncrease={increaseQuantity}
-        />
+        <div className="flex gap-4 items-center">
+          <p className="text-sm">Quantity: </p>
+          <QuantityButton
+            quantity={quantity}
+            onDecrease={() => setQuantity((prev) => prev - 1)}
+            onIncrease={() => setQuantity((prev) => prev + 1)}
+            productId={product.id}
+            stock={product.stock}
+          />
+        </div>
         <div className="flex gap-2">
           <Button
             variant="outline"
             size="sm"
             onClick={() => {
-              if (product) handleAddToCart(product);
+              dispatch(
+                addToCart({
+                  ...product,
+                  quantity: quantity,
+                  subTotal: Number(product.price) * quantity,
+                })
+              );
             }}
           >
+            <BiCart size={16} className="mr-2" />
             Add To Cart
           </Button>
           <Button variant="default" size="sm">
