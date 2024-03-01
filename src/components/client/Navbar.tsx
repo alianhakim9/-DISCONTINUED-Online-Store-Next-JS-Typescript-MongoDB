@@ -5,20 +5,25 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RootState } from "@/types";
-import { showToast } from "@/utils/helper";
 import { guestNavbarMenus, isLoginNavbarMenus } from "@/utils/menus";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BiCart } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import SignOutDialog from "../shared/SignOutDialog";
+import { onSignOut } from "@/utils/helper";
 
 const Navbar = () => {
-  const isLoggedIn = false;
   const router = useRouter();
-
-  const { loading, cartItems, message } = useSelector(
-    (state: RootState) => state.cart
-  );
+  const { data: session } = useSession();
+  const { loading, cartItems } = useSelector((state: RootState) => state.cart);
 
   return (
     <div className="bg-white border border-gray-100 p-5 top-0 z-50 fixed w-full ">
@@ -40,7 +45,7 @@ const Navbar = () => {
             </Badge>
           </Button>
           {/* render if is logged in true */}
-          {isLoggedIn &&
+          {session &&
             isLoginNavbarMenus.map((menu, index) => (
               <Button
                 variant="ghost"
@@ -52,14 +57,31 @@ const Navbar = () => {
                 {<menu.icon size={24} />}
               </Button>
             ))}
-          {isLoggedIn && (
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+          {session && (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <Button variant="link">Account</Button>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button variant="link">My Order</Button>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button variant="link" onClick={() => onSignOut()}>
+                    Logout
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
           {/* render if is logged in false */}
-          {!isLoggedIn &&
+          {!session &&
             guestNavbarMenus.map((menu, index) => (
               <div
                 key={index}

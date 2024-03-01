@@ -7,14 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { addToCart } from "@/redux/slices/cartSlice";
 import { Product } from "@/types";
 import { PRODUCT_IMG_PATH } from "@/utils/constants";
-import Image from "next/image";
 import Link from "next/link";
 import { BiCart } from "react-icons/bi";
-import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
-import { addToCart } from "@/redux/slices/cartSlice";
+import { Button } from "../ui/button";
+import ImageLoad from "./ImageLoad";
 
 interface IProductProps {
   product: Product;
@@ -26,20 +26,16 @@ const ProductCard = ({ product }: IProductProps) => {
   return (
     <Card className="flex flex-col justify-between">
       <CardHeader>
-        <div className="h-52 w-52 relative">
-          <Image
-            alt={product.name}
-            src={
-              product.images[0]
-                ? `${PRODUCT_IMG_PATH}/${product.images[0]}`
-                : "/images/placeholder.jpg"
-            }
-            layout="fill" // required
-            objectFit="cover" // change to suit your needs
-            className="rounded-md" // just an example
-          />
-        </div>
-        <CardTitle className="hover:text-yellow-400 text-1xl">
+        <ImageLoad
+          className="h-52 w-52"
+          src={
+            product.images[0]
+              ? `${PRODUCT_IMG_PATH}/${product.images[0]}`
+              : "/images/placeholder.jpg"
+          }
+          alt={product.name}
+        />
+        <CardTitle className="hover:text-lime-950 text-1xl">
           <Link href={`/products/${product.id}`}>{product.name}</Link>
         </CardTitle>
         <CardDescription>

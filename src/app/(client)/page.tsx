@@ -28,6 +28,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col">
+      {/* <Banner /> */}
       <div className="mt-5 grid grid-cols-5 gap-2">
         {products &&
           products.map((product) => (

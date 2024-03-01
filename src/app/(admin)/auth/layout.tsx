@@ -6,7 +6,7 @@ export default function RootLayout({
   return (
     <div className="grid grid-cols-2 h-screen">
       <div className="bg-black flex flex-col items-start justify-center p-10">
-        <h1 className="text-yellow-400 font-bold text-5xl">
+        <h1 className="text-lime-950 font-bold text-5xl">
           WELCOME TO OLSHOP ADMIN
         </h1>
         <p className="text-slate-200 font-semibold">

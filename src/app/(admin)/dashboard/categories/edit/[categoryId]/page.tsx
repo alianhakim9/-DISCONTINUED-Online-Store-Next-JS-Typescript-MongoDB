@@ -1,6 +1,7 @@
 "use client";
 
 import CategoryForm from "@/components/admin/CategoryForm";
+import { Category } from "@/types";
 import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";

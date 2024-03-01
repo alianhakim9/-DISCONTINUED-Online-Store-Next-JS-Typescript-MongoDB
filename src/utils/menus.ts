@@ -1,4 +1,4 @@
-import { BiCart } from "react-icons/bi";
+import { BiHeart } from "react-icons/bi";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 export const sidebarMenus = [
@@ -40,8 +40,75 @@ export const isLoginNavbarMenus = [
     icon: IoNotificationsOutline,
   },
   {
-    title: "cart",
-    url: "/cart",
-    icon: BiCart,
+    title: "favourite",
+    url: "/favourite",
+    icon: BiHeart,
   },
 ];
+
+export const footerMenus = {
+  items1: [
+    {
+      title: "About us",
+      url: "/",
+    },
+    {
+      title: "Hak Kekayaan Intelektual",
+      url: "/",
+    },
+    {
+      title: "Karir",
+      url: "/",
+    },
+    {
+      title: "Blog",
+      url: "/",
+    },
+    {
+      title: "Bridestory",
+      url: "/",
+    },
+    {
+      title: "Mitra Blog",
+      url: "/",
+    },
+    {
+      title: "Olshop Affiliate Program",
+      url: "/",
+    },
+    {
+      title: "Olshop B2B Digital",
+      url: "/",
+    },
+    {
+      title: "Olshop Marketing Solutions",
+      url: "/",
+    },
+    {
+      title: "Kalkulator Indeks Masa Tubuh",
+      url: "/",
+    },
+    {
+      title: "Olshop Farma",
+      url: "/",
+    },
+    {
+      title: "Ramadan Ekstra Seru",
+      url: "/",
+    },
+  ],
+  items2: [
+    {
+      title: "Tagihan & Top Up",
+      url: "/",
+    },
+    {
+      title: "Tukar Tambah Handphone",
+      url: "/",
+    },
+    {
+      title: "Olshop COD",
+      url: "/",
+    },
+  ],
+};

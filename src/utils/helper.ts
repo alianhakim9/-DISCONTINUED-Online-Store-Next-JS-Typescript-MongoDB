@@ -9,8 +9,8 @@ export function showToast(message: string, type: "success" | "error") {
   }
 }
 
-export function onSignOut() {
-  return signOut({ callbackUrl: "/auth/login" });
+export function onSignOut(callbackUrl?: string) {
+  return signOut({ callbackUrl });
 }
 
 export const addDecimals = (num: number) => {
