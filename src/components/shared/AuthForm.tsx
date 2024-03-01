@@ -53,9 +53,13 @@ const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true);
-    if (isSignUp && fromAdmin) {
+    const data = {
+      ...values,
+      isAdmin: false,
+    };
+    if (isSignUp) {
       await axios
-        .post("/api/auth/register", values)
+        .post("/api/auth/register", fromAdmin ? data : values)
         .then(() => {
           showToast("Register success, please login", "success");
         })
@@ -65,17 +69,20 @@ const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
         .finally(() => {
           setIsLoading(false);
         });
-    } else if (!isSignUp && fromAdmin) {
+    } else if (!isSignUp) {
       const email = values.email;
       const password = values.password;
       const res = await signIn("credentials", {
         email,
         password,
-        callbackUrl: `/dashboard`,
-        redirect: false,
+        callbackUrl: fromAdmin ? "/dashboard" : "/",
+        redirect: true,
       });
       if (res?.status === 401) showToast("Login failed", "error");
-      if (res?.status === 200) router.push("/dashboard");
+      // if (res?.status === 200) {
+      //   if (fromAdmin) router.push("/dashboard");
+      //   router.refresh();
+      // }
       setIsLoading(false);
     }
   }
