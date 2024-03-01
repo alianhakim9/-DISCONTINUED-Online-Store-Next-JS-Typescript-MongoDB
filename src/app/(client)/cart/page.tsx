@@ -1,5 +1,6 @@
 "use client";
 
+import ImageLoad from "@/components/client/ImageLoad";
 import QuantityButton from "@/components/client/QuantityButton";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,8 +45,12 @@ export default function Cart() {
       {loading ? (
         <p>Loading...</p>
       ) : cartItems.length === 0 ? (
-        <div>
-          <p>Cart is empty</p>
+        <div className="w-full flex items-center justify-center flex-col">
+          <ImageLoad
+            alt="empty-cart"
+            src="/images/empty-cart.png"
+            className="h-96 w-96"
+          />
         </div>
       ) : (
         <div>
