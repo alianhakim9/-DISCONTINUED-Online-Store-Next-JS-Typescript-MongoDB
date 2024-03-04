@@ -1,4 +1,4 @@
-![image](https://github.com/alianhakim9/Online-Store-Next-JS-Typescript-MongoDB/assets/51102459/14ed4c60-04b8-4ceb-91fd-c73d0c7557f0)# Online Store Website Next 14, Typescript & MongoDB
+# Online Store Website Next 14, Typescript & MongoDB
 
 Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API. This project using monolith architecture.
 
@@ -81,11 +81,6 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-![image]()
-![image]()
-![image]()
-
-
 
 # Screenshots
 | | | |
