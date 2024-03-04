@@ -2,9 +2,9 @@
 
 Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API. This project using monolith architecture.
 
-- [Feature List](#Feature-list)
+- [Feature List](#feature-list)
 - [Installation](#project-installation)
-- [Screenshots](#screenshoots)
+- [Screenshots](#screenshots)
 - [Credit](#project-maintenance-by)
 
 ---
