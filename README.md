@@ -59,7 +59,12 @@ Setup ENV
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 NEXT_AUTH_SECRET=
-DATABASE_URL="mongodb://your-unique-username:your-strong-password@localhost:27017/olshop"
+NEXT_AUTH_URL=http://localhost:3000
+DATABASE_URL="mongodb://user:olshoppassword@localhost:27017/olshop-db"
+# Midtrans
+MIDTRANS_MERCHANT_ID=
+MIDTRANS_CLIENT_KEY=
+MIDTRANS_SERVER_KEY=
 ```
 
 Prisma setup
