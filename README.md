@@ -12,7 +12,7 @@ Feature List :
 - Front-End / Client Side
   - Shopping Cart
 - Filtering, Sorting & Pagination
-- Payment Gateway (Development)
+- Payment Gateway (Midtrans)
 - Responsive Web (Development)
 
 First, run
