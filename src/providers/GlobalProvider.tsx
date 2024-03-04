@@ -5,6 +5,7 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { useDispatch } from "react-redux";
 
 interface Props {
@@ -23,6 +24,7 @@ const GlobalProvider = ({ session, children }: Props) => {
     <SessionProvider session={session}>
       {children}
       <Toaster />
+      <SonnerToaster />
     </SessionProvider>
   );
 };

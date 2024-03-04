@@ -18,6 +18,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { IoNotificationsOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const router = useRouter();
@@ -47,6 +49,18 @@ const Navbar = () => {
             </Badge>
           </Button>
           {/* render if is logged in true */}
+          {session && (
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <IoNotificationsOutline size={24} />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-30">
+                <p>No notification</p>
+              </PopoverContent>
+            </Popover>
+          )}
           {session &&
             isLoginNavbarMenus.map((menu, index) => (
               <Button

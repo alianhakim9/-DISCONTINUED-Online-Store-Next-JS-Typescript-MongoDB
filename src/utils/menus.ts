@@ -1,5 +1,4 @@
 import { BiHeart } from "react-icons/bi";
-import { IoNotificationsOutline } from "react-icons/io5";
 
 export const sidebarMenus = [
   {
@@ -23,7 +22,7 @@ export const sidebarMenus = [
 export const guestNavbarMenus = [
   {
     title: "Login",
-    url: "/login",
+    url: "/sign-in",
     variant: true,
   },
   {
@@ -34,11 +33,6 @@ export const guestNavbarMenus = [
 ];
 
 export const isLoginNavbarMenus = [
-  {
-    title: "Notification",
-    url: "/notifications",
-    icon: IoNotificationsOutline,
-  },
   {
     title: "favourite",
     url: "/favourite",

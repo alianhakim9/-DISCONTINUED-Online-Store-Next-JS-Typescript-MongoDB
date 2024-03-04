@@ -10,21 +10,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { showSonnerToast } from "@/utils/helper";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios, { AxiosError } from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import LoadingButton from "./LoadingButton";
 import OAuthButton from "./OAuthButton";
-import axios, { AxiosError } from "axios";
-import { showToast } from "@/utils/helper";
-import { useState } from "react";
-import { NextResponse } from "next/server";
+import { PasswordInput } from "./PasswordInput";
 interface IAuthFormProps {
   isSignUp?: boolean;
   signUpUrl?: string;
   fromAdmin?: boolean;
-  callbackUrl?: string;
 }
 
 const loginSchema = z.object({
@@ -32,20 +32,20 @@ const loginSchema = z.object({
   password: z.string().min(8),
 });
 
-const signUpSchema = z.object({
-  name: z.string().min(2).max(100),
-  username: z.string().min(2).max(50),
-  email: z.string().email(),
-  password: z.string().min(8),
-  confirmPassword: z.string().min(8),
-});
+const signUpSchema = z
+  .object({
+    name: z.string().min(2).max(100),
+    username: z.string().min(2).max(50),
+    email: z.string().email(),
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Password must be the same",
+    path: ["confirmPassword"],
+  });
 
-const AuthForm = ({
-  isSignUp,
-  signUpUrl,
-  fromAdmin,
-  callbackUrl,
-}: IAuthFormProps) => {
+const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(isSignUp ? signUpSchema : loginSchema),
     defaultValues: {
@@ -57,6 +57,7 @@ const AuthForm = ({
     },
   });
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     setIsLoading(true);
@@ -64,14 +65,18 @@ const AuthForm = ({
       ...values,
       isAdmin: false,
     };
+    const apiUrl = fromAdmin
+      ? "/api/auth/sign-up?is_admin=true"
+      : "/api/auth/sign-up";
+
     if (isSignUp) {
       await axios
-        .post("/api/auth/register", fromAdmin ? data : values)
+        .post(apiUrl, fromAdmin ? data : values)
         .then(() => {
-          showToast("Register success, please login", "success");
+          showSonnerToast("Account created", "Please login to continue");
         })
         .catch((error: AxiosError) => {
-          showToast(error.message, "error");
+          showSonnerToast("Sign up failed", error.message);
         })
         .finally(() => {
           setIsLoading(false);
@@ -79,22 +84,28 @@ const AuthForm = ({
     } else if (!isSignUp) {
       const email = values.email;
       const password = values.password;
-      const res = await signIn("credentials", {
+      await signIn("credentials", {
         email,
         password,
-        callbackUrl: fromAdmin ? "/dashboard" : "/",
-        redirect: true,
-      });
-      if (res?.status === 401) showToast("Login failed", "error");
-      // if (res?.status === 200) {
-      //   if (fromAdmin) router.push("/dashboard");
-      //   router.refresh();
-      // }
-      setIsLoading(false);
+        redirect: false,
+      })
+        .then((v) => {
+          if (v?.status === 200) {
+            if (fromAdmin) {
+              router.replace("/dashboard");
+            } else {
+              router.replace("/");
+            }
+          } else if (v?.status === 401) {
+            showSonnerToast(
+              "Sign in failed",
+              "Please check again your email or password"
+            );
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   }
-
-  const router = useRouter();
 
   return (
     <Form {...form}>
@@ -152,7 +163,7 @@ const AuthForm = ({
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <PasswordInput {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -166,7 +177,7 @@ const AuthForm = ({
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input {...field} type="password" />
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -174,15 +185,12 @@ const AuthForm = ({
           />
         )}
         <div className="flex flex-col">
-          <Button
+          <LoadingButton
             type="submit"
-            className={`${
-              fromAdmin && "w-full self-stretch"
-            } mt-5 self-start min-w-[150px] rounded-lg shadow-lg`}
-            disabled={isLoading}
-          >
-            {isSignUp ? "Sign Up" : "Login"}
-          </Button>
+            title={isSignUp ? "Sign Up" : "Sign In"}
+            isLoading={isLoading}
+            className="mt-4"
+          />
           {!isSignUp && fromAdmin && (
             <Button
               type="button"

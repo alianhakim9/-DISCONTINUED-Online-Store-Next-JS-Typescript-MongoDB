@@ -84,11 +84,11 @@ const Footer = () => {
           </div>
           <div>
             <h3 className="uppercase text-1xl font-semibold">Ikuti Kami</h3>
-            <div className="flex gap-2 items-center mt-2">
-              <FaFacebook size={30} color="white" />
-              <FaTwitter size={30} color="white" />
-              <FaInstagram size={30} color="white" />
-              <FaWhatsapp size={30} color="white" />
+            <div className="flex gap-2 items-center mt-3">
+              <FaFacebook size={24} color="white" />
+              <FaTwitter size={24} color="white" />
+              <FaInstagram size={24} color="white" />
+              <FaWhatsapp size={24} color="white" />
             </div>
           </div>
         </div>

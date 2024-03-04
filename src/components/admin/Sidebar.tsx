@@ -49,7 +49,7 @@ const Sidebar = () => {
               <DialogFooter>
                 <Button
                   variant="destructive"
-                  onClick={() => onSignOut("/auth/login")}
+                  onClick={() => onSignOut("/auth/sign-in")}
                 >
                   Logout
                 </Button>

@@ -40,17 +40,20 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid()) @map("_id")
+  id            String      @id @default(cuid()) @map("_id")
   name          String?
   username      String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  isAdmin       Boolean?
+  account_type  AccountType @default(USER)
+  verifyAsAdmin Boolean?
+  addressId     String?     @db.ObjectId
   Account       Account[]
   Session       Session[]
   Cart          Cart[]
+  Address       Address?    @relation(fields: [addressId], references: [id])
 }
 
 model Product {
@@ -60,6 +63,10 @@ model Product {
   price       Float
   images      String[]
   stock       Int
+  isDiscount  Boolean?
+  discount    Int?
+  brand       String?
+  weight      Int?
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  String   @db.ObjectId
   createdAt   DateTime @default(now())
@@ -67,16 +74,14 @@ model Product {
 }
 
 model Cart {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  quantity      Int
-  totalPrice    Int
-  itemPrice     Int
-  shippingPrice Int
-  product       Product  @relation(fields: [productId], references: [id])
-  productId     String   @db.ObjectId
-  User          User?    @relation(fields: [userId], references: [id])
-  userId        String?
-  createdAt     DateTime @default(now())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity   Int
+  totalPrice Int
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String   @db.ObjectId
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+  createdAt  DateTime @default(now())
 }
 
 model Category {
@@ -84,4 +89,25 @@ model Category {
   name      String    @unique
   createdAt DateTime  @default(now())
   Product   Product[]
+}
+
+model Order {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId       String
+  status        String
+  totalPrice    Int
+  paymentMethod String
+  createdAt     DateTime @default(now())
+}
+
+model Address {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  address   String
+  createdAt String
+  User      User[]
+}
+
+enum AccountType {
+  USER
+  ADMIN
 }

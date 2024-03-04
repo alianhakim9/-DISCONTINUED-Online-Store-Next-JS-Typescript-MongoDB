@@ -15,7 +15,7 @@ export default async function Page({
 
   return (
     <Suspense fallback={<Loading />}>
-      <ProductDetail product={product} />;
+      <ProductDetail product={product} />
     </Suspense>
   );
 }

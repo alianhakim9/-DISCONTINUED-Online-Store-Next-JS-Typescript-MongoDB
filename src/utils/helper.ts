@@ -1,5 +1,7 @@
 import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
+import { toast as sonnerToast } from "sonner";
+
 import * as crypto from "crypto";
 
 export function showToast(message: string, type: "success" | "error") {
@@ -10,8 +12,14 @@ export function showToast(message: string, type: "success" | "error") {
   }
 }
 
+export function showSonnerToast(message: string, description?: string) {
+  sonnerToast(message, {
+    description: description,
+  });
+}
+
 export function onSignOut(callbackUrl?: string) {
-  return signOut({ callbackUrl });
+  return signOut({ callbackUrl, redirect: true });
 }
 
 export const addDecimals = (num: number) => {

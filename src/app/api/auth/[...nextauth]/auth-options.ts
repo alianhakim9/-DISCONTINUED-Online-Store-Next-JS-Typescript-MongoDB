@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
           return (
             (await axios
               .post(
-                `${process.env.NEXT_AUTH_URL}/api/auth/login`,
+                `${process.env.NEXT_AUTH_URL}/api/auth/sign-in`,
                 {
                   email: credentials?.email,
                   password: credentials?.password,
@@ -73,7 +73,7 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60,
   },
   pages: {
-    signIn: "/auth/login",
+    signIn: "/auth/sign-in",
   },
   callbacks: {
     async jwt({ token, user }) {

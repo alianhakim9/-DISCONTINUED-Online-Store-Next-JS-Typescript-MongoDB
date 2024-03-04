@@ -6,6 +6,12 @@ import { authOptions } from "./api/auth/[...nextauth]/auth-options";
 import { StoreProvider } from "@/providers/StoreProvider";
 import "./globals.css";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

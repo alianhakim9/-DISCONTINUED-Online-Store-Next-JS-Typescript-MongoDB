@@ -15,6 +15,7 @@ import { BiCart } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import ImageLoad from "./ImageLoad";
+import { showSonnerToast } from "@/utils/helper";
 
 interface IProductProps {
   product: Product;
@@ -27,7 +28,7 @@ const ProductCard = ({ product }: IProductProps) => {
     <Card className="flex flex-col justify-between">
       <CardHeader>
         <ImageLoad
-          className="h-52 w-52"
+          className="h-40 w-40 mx-auto"
           src={
             product.images[0]
               ? `${PRODUCT_IMG_PATH}/${product.images[0]}`
@@ -53,6 +54,7 @@ const ProductCard = ({ product }: IProductProps) => {
             dispatch(
               addToCart({ ...product, quantity: 1, subTotal: product.price })
             );
+            showSonnerToast("Product added to cart", product.name);
           }}
         >
           <BiCart size={20} className="mr-2" /> Add To Cart

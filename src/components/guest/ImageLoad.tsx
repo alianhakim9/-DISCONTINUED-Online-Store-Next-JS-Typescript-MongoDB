@@ -15,7 +15,7 @@ const ImageLoad = ({ className, src, alt }: Props) => {
         objectFit="cover"
         alt={alt}
         className="rounded-md"
-        priority
+        loading="lazy"
       />
     </div>
   );

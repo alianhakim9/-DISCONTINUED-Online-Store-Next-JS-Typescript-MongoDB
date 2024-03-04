@@ -26,15 +26,14 @@ import { setTransactionToken } from "@/redux/slices/paymentSlice";
 import { RootState } from "@/types";
 import { PRODUCT_IMG_PATH } from "@/utils/constants";
 import { showToast } from "@/utils/helper";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { AiOutlineLoading } from "react-icons/ai";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingButton from "../shared/LoadingButton";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -167,18 +166,12 @@ const CartPage = () => {
               <Button variant="outline" onClick={() => router.push("/home")}>
                 Continue shopping
               </Button>
-              <Button
-                variant="default"
+              <LoadingButton
+                isLoading={isLoading}
                 onClick={handleCheckout}
-                disabled={isLoading}
-              >
-                Checkout
-                {isLoading ? (
-                  <AiOutlineLoading className="animate-spin ml-2" />
-                ) : (
-                  <ArrowRightIcon className="ml-2" />
-                )}
-              </Button>
+                title="Checkout"
+                type="button"
+              />
             </div>
           </div>
         </div>
