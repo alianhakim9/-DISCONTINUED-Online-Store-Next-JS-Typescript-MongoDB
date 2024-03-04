@@ -1,30 +1,10 @@
 import { getToken } from "next-auth/jwt";
-import { withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
-// @ts-ignore
-const authMiddleware = withAuth(
-  async function onSuccess(request: NextRequest) {},
-  {
-    callbacks: {
-      // authorized: ({ token }) => {
-      //   // @ts-ignore
-      //   const isAdmin = token?.user?.isAdmin;
-      //   return token !== null && isAdmin;
-      // },
-      authorized: ({ token }) => token !== null,
-    },
-    pages: {
-      signIn: "/auth/login",
-    },
-    secret: process.env.NEXT_AUTH_SECRET,
-  }
-);
-
 export default async function middleware(request: NextRequest) {
-  const excludePattern = "^(/)?/dashboard/?.*?$";
-  const publicPathnameRegex = RegExp(excludePattern, "i");
-  const isPublicPage = !publicPathnameRegex.test(request.nextUrl.pathname);
+  // const excludePattern = "^(/)?/dashboard/?.*?$";
+  // const publicPathnameRegex = RegExp(excludePattern, "i");
+  // const isPublicPage = !publicPathnameRegex.test(request.nextUrl.pathname);
   const secret = process.env.NEXT_AUTH_SECRET;
   const token = await getToken({
     req: request,
@@ -35,15 +15,53 @@ export default async function middleware(request: NextRequest) {
   // @ts-ignore
   const isAdmin = token?.user?.isAdmin;
 
-  if (isPublicPage) {
-    return NextResponse.next();
-  } else if (!isAdmin && !isPublicPage) {
-    return NextResponse.redirect(new URL("/denied", request.nextUrl));
-  } else {
-    return (authMiddleware as any)(request);
+  // home middleware
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.rewrite(new URL("/home", request.url));
   }
+
+  // payment middleware
+  if (request.nextUrl.pathname === "/payment") {
+    if (!token) {
+      return NextResponse.rewrite(new URL("/login", request.url));
+    } else {
+      return NextResponse.rewrite(new URL("/payment", request.url));
+    }
+  }
+
+  // admin middleware
+
+  // admin middleware
+  // if (url.includes("dashboard")) {
+  //   if (!isAdmin) {
+  //     return NextResponse.redirect(new URL("/denied", request.nextUrl));
+  //   } else if (!token) {
+  //     return NextResponse.redirect(new URL("/auth/login", request.nextUrl));
+  //   }
+  // }
+
+  // if (url.includes("/")) {
+  //   return NextResponse.redirect(new URL("/home", request.nextUrl));
+  // }
+
+  // return NextResponse.next();
+
+  // if (isPublicPage) {
+  //   return NextResponse.next();
+  // } else if (isPublicPage && skipUrl) {
+  //   return NextResponse.redirect(new URL("/home", request.nextUrl));
+  // } else if (!isAdmin && !isPublicPage) {
+  //   return NextResponse.redirect(new URL("/denied", request.nextUrl));
+  // } else {
+  //   return (authMiddleware as any)(request);
+  // }
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: [
+    "/dashboard/:path*",
+    "/((?!api|_next|.*\\..*).*)",
+    "/((?!_next/static|favicon.ico|home|).*)",
+    "/((?!_next/static|favicon.ico|login|).*)",
+  ],
 };

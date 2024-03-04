@@ -42,11 +42,10 @@ const ProductCard = ({ product }: IProductProps) => {
           <div className="bg-slate-100 px-2 py-1 rounded-lg w-1/2 my-2 self-start">
             <p>{product.category.name}</p>
           </div>
-          <p className="line-clamp-3 text-justify">{product.description}</p>
           <p className="font-bold">$ {product.price}</p>
+          <p className="line-clamp-3 text-justify">{product.description}</p>
         </CardDescription>
       </CardHeader>
-      {/* <CardContent></CardContent> */}
       <CardFooter className="self-center">
         <Button
           className="rounded-lg hover:shadow-md"

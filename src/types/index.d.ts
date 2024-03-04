@@ -47,6 +47,9 @@ type RootState = {
     subTotal: SubTotal[];
     quantity: Quantity[];
   };
+  payment: {
+    transactionToken: string;
+  };
 };
 
 type SubTotal = {
@@ -58,3 +61,11 @@ type Quantity = {
   id: string;
   count: number;
 };
+
+declare global {
+  interface Window {
+    snap: {
+      embed: function;
+    };
+  }
+}

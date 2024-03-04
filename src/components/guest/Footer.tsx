@@ -1,4 +1,3 @@
-import { footerMenus } from "@/utils/menus";
 import Link from "next/link";
 import React from "react";
 import {
@@ -8,6 +7,7 @@ import {
   FaWhatsapp,
 } from "react-icons/fa6";
 import ImageLoad from "./ImageLoad";
+import { footerMenus } from "@/utils/menus";
 
 const Footer = () => {
   return (

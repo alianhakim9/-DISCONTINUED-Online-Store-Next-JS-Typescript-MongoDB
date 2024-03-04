@@ -19,10 +19,12 @@ import OAuthButton from "./OAuthButton";
 import axios, { AxiosError } from "axios";
 import { showToast } from "@/utils/helper";
 import { useState } from "react";
+import { NextResponse } from "next/server";
 interface IAuthFormProps {
   isSignUp?: boolean;
   signUpUrl?: string;
   fromAdmin?: boolean;
+  callbackUrl?: string;
 }
 
 const loginSchema = z.object({
@@ -38,7 +40,12 @@ const signUpSchema = z.object({
   confirmPassword: z.string().min(8),
 });
 
-const AuthForm = ({ isSignUp, signUpUrl, fromAdmin }: IAuthFormProps) => {
+const AuthForm = ({
+  isSignUp,
+  signUpUrl,
+  fromAdmin,
+  callbackUrl,
+}: IAuthFormProps) => {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(isSignUp ? signUpSchema : loginSchema),
     defaultValues: {

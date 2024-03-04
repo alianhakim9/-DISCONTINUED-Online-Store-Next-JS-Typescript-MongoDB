@@ -17,18 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-export type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  images: string[];
-  stock: number;
-  category: {
-    id: string;
-    name: string;
-  };
-};
+import { Product } from "@/types";
 
 export const columns: ColumnDef<Product>[] = [
   {

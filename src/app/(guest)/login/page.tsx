@@ -1,4 +1,4 @@
-import ImageLoad from "@/components/client/ImageLoad";
+import ImageLoad from "@/components/guest/ImageLoad";
 import AuthForm from "@/components/shared/AuthForm";
 
 export default function Login() {

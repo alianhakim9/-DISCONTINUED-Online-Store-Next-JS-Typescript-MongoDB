@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RootState } from "@/types";
+import { onSignOut } from "@/utils/helper";
 import { guestNavbarMenus, isLoginNavbarMenus } from "@/utils/menus";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -17,8 +18,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import SignOutDialog from "../shared/SignOutDialog";
-import { onSignOut } from "@/utils/helper";
 
 const Navbar = () => {
   const router = useRouter();
@@ -26,9 +25,12 @@ const Navbar = () => {
   const { loading, cartItems } = useSelector((state: RootState) => state.cart);
 
   return (
-    <div className="bg-white border border-gray-100 p-5 top-0 z-50 fixed w-full ">
-      <div className="container flex justify-between items-center gap-5 ">
-        <Link href="/">
+    <div className="bg-white border-b border-gray-200 w-full top-0 fixed z-50">
+      <div className=" bg-black text-white w-full flex items-center justify-center p-1">
+        <p className="text-sm">Discount 10% today</p>
+      </div>
+      <div className="container flex justify-between items-center gap-5 p-5 ">
+        <Link href="/home">
           <h4 className="font-bold text-black text-3xl">OLSHOP</h4>
         </Link>
         <Input placeholder="Search product..." />

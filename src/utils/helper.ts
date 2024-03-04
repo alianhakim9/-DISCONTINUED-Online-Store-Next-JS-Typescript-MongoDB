@@ -1,5 +1,6 @@
 import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
+import * as crypto from "crypto";
 
 export function showToast(message: string, type: "success" | "error") {
   if (type === "success") {
@@ -16,3 +17,19 @@ export function onSignOut(callbackUrl?: string) {
 export const addDecimals = (num: number) => {
   return (Math.round(num * 100) / 100).toFixed(2);
 };
+
+export function generateOrderId(): string {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let orderId = "order_";
+  for (let i = 0; i < 10; i++) {
+    orderId += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return orderId;
+}
+
+export function generateSHA512(input: string): string {
+  const hash = crypto.createHash("sha512");
+  hash.update(input);
+  return hash.digest("hex");
+}

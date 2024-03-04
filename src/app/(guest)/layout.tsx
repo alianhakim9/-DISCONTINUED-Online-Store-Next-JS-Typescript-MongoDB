@@ -1,7 +1,9 @@
-import Footer from "@/components/client/Footer";
-import Navbar from "@/components/client/Navbar";
 import type { Metadata } from "next";
 import "../globals.css";
+import Footer from "@/components/guest/Footer";
+import Navbar from "@/components/guest/Navbar";
+import { Suspense } from "react";
+import Loading from "./home/loading";
 
 export const metadata: Metadata = {
   title: "Olshop",
@@ -16,7 +18,9 @@ export default async function RootLayout({
   return (
     <div className={`flex flex-col justify-between h-screen`}>
       <Navbar />
-      <div className="flex-1 container mt-28 mb-24">{children}</div>
+      <Suspense fallback={<Loading />}>
+        <div className="flex-1 container mt-32 mb-24">{children}</div>
+      </Suspense>
       <Footer />
     </div>
   );
