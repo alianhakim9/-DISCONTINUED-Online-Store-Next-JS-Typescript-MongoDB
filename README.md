@@ -6,7 +6,7 @@ Main purpose of this project as a Back-End functionality for Olshop, including A
 - [Installation](#project-installation)
 - [Screenshots](#screenshots)
 - [Credit](#project-maintenance-by)
-- [Readmore & References](#readmore)
+- [Refernces](#references)
 
 ---
 
@@ -88,7 +88,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 [Alian Hakim](https://github.com/alianhakim9)
 
-# Read More & References
+# References
 
 - https://console.cloud.google.com/
 - https://next-auth.js.org/
