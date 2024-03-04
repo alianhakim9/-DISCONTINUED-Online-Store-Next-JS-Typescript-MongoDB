@@ -6,6 +6,7 @@ Main purpose of this project as a Back-End functionality for Olshop, including A
 - [Installation](#project-installation)
 - [Screenshots](#screenshots)
 - [Credit](#project-maintenance-by)
+- [Readmore & References](#readmore-&-references)
 
 ---
 
