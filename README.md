@@ -1,8 +1,16 @@
-## Getting Started
+# Online Store Web Build Using Next 14, Typescript & MongoDB
 
 Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API. This project using monolith architecture.
 
-Feature List : 
+- [Feature List](#Feature-list)
+- [Installation](#project-installation)
+- [Screenshots](#screenshoots)
+- [Credit](#project-maintenance-by)
+
+---
+
+# Feature List :
+
 - Authentication & Authorization
   - Credentials Auth
   - OAuth2 (Sign In With Google)
@@ -15,16 +23,24 @@ Feature List :
 - Payment Gateway (Midtrans)
 - Responsive Web (Development)
 
+# Project Installation
+
+The following is how to install the project from start to finish
+
+### Installing Library & Dependencies
+
 First, run
 
 `npm install OR yarn install`
 
-Docker setup
+### Docker & Database setup
 
 ```
 docker-compose up -d
 ```
+
 Database setup
+
 ```
 > docker exec -it <container_id> bash
 > mongo
@@ -35,19 +51,24 @@ Database setup
   roles: ["readWrite", "dbAdmin"]
 });
 ```
+
 Setup ENV
+
 ```
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 NEXT_AUTH_SECRET=
 DATABASE_URL="mongodb://your-unique-username:your-strong-password@localhost:27017/olshop"
 ```
+
 Prisma setup
+
 ```
 npx prisma db push
 ```
 
-Run the development server:
+### Run the development server:
+
 ```bash
 npm run dev
 # or
@@ -57,14 +78,20 @@ pnpm dev
 # or
 bun dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Project Maintenance By
-https://github.com/alianhakim9
+# Screenshots
 
-## Read More
-* https://console.cloud.google.com/
-* https://next-auth.js.org/
-* https://www.prisma.io/
-* https://redux-toolkit.js.org/usage/usage-with-typescript
-* https://ui.shadcn.com/docs
+# Project Maintenance By
+
+[Alian Hakim](https://github.com/alianhakim9)
+
+# Read More & References
+
+- https://console.cloud.google.com/
+- https://next-auth.js.org/
+- https://www.prisma.io/
+- https://redux-toolkit.js.org/usage/usage-with-typescript
+- https://ui.shadcn.com/docs
+- https://docs.midtrans.com/docs/snap-preparation
