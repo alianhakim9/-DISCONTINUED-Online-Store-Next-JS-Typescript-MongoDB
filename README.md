@@ -3,14 +3,13 @@
 Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API. This project using monolith architecture. But i have performance issues when i use monolith architecture, so i separate this front-end using and back-end using Strapi & MySQL, you can fork or view this repository:
 * [Online Store Front-End](https://github.com/alianhakim9/Online-store-front-end-next-14-typescipt)
 * [Online Store Back-End](https://github.com/alianhakim9/Online-store-back-end-strapi-mysql-typescript)
-
+  
+## Table Of Content
 - [Feature List](#feature-list)
 - [Installation](#project-installation)
 - [Screenshots](#screenshots)
 - [Credit](#project-maintenance-by)
 - [Refernces](#references)
-  
-## Table Of Content
 ---
 
 # Feature List :
