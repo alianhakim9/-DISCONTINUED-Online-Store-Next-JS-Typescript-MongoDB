@@ -1,8 +1,8 @@
 # Online Store Website Next 14, Typescript & MongoDB
 
 Main purpose of this project as a Back-End functionality for Olshop, including Admin Panel and RESTful API. This project using monolith architecture. But i have performance issues when i use monolith architecture, so i separate this front-end using and back-end using Strapi & MySQL, you can fork or view this repository:
-[Front-End]
-[Back-End]
+[Front-End]()
+[Back-End]()
 
 - [Feature List](#feature-list)
 - [Installation](#project-installation)
